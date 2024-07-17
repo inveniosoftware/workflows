@@ -1,0 +1,57 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2024 CERN.
+
+name: Python CI
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        description: "Python versions"
+        type: string
+        # NOTE: There is no "array" type, so we use "string" and parse it in the matrix
+        default: '["3.9", "3.12"]'
+      db-service:
+        description: "DB service"
+        type: string
+        default: '["postgresql14"]'
+      search-service:
+        description: "Search service"
+        type: string
+        default: '["opensearch2"]'
+
+jobs:
+  Tests:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ${{ fromJson(inputs.python-version) }}
+        db-service: ${{ fromJson(inputs.db-service) }}
+        search-service: ${{ fromJson(inputs.search-service) }}
+
+    env:
+      DB: ${{ matrix.db-service }}
+      SEARCH: ${{ matrix.search-service }}
+      EXTRAS: tests,${{ matrix.search-service }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: setup.cfg
+
+      - name: Install dependencies
+        run: |
+          pip install ".[$EXTRAS]"
+          pip freeze
+          docker version
+
+      - name: Run tests
+        run: ./run-tests.sh
