@@ -12,6 +12,10 @@ on:
         type: string
         # NOTE: There is no "array" type, so we use "string" and parse it in the matrix
         default: '["3.9", "3.12"]'
+      extras:
+        description: "Extra dependencies"
+        type: string
+        default: 'tests'
       db-service:
         description: "DB service"
         type: string
@@ -34,7 +38,7 @@ jobs:
     env:
       DB: ${{ matrix.db-service }}
       SEARCH: ${{ matrix.search-service }}
-      EXTRAS: tests,${{ matrix.search-service }}
+      EXTRAS: ${{ inputs.extras }},${{ matrix.search-service }}
 
     steps:
       - name: Checkout
