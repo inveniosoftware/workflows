@@ -47,12 +47,16 @@ jobs:
       - name: Install deps for frontend tests
         if: ${{ inputs.js-working-directory != '' }}
         working-directory: ${{ inputs.js-working-directory }}
-        run: npm install
+        run: |
+          npm install
+          npm list
 
       - name: Install deps for frontend tests - translations
         if: ${{ inputs.translations-working-directory != '' }}
         working-directory: ${{ inputs.translations-working-directory }}
-        run: npm install
+        run: |
+          npm install
+          npm list
 
       - name: Run frontend tests
         if: ${{ inputs.js-working-directory != '' }}
