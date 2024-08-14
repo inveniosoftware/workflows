@@ -30,7 +30,7 @@ jobs:
 
 #### Inputs
 
-> ![!IMPORTANT]
+> [!IMPORTANT]
 > Because reusable workflows don't support array inputs, the `python-version`,
 > `db-service`, and `search-service` inputs are expected to be a JSON-encoded string.
 
