@@ -51,6 +51,10 @@ jobs:
           cache: pip
           cache-dependency-path: setup.cfg
 
+      - name: Pre-install
+        uses: ./.github/actions/pre-install
+        if: ${{ hashFiles('.github/actions/pre-install/action.yml') != '' }}
+
       - name: Install dependencies
         run: |
           pip install ".[$EXTRAS]"
