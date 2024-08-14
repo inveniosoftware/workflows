@@ -14,15 +14,6 @@ This workflow will:
 4. Install the package with the specified extras.
 5. Run the tests using the `./run-tests.sh` script in the repository.
 
-#### Inputs
-
-| Name             | Description                   | Default            | Example                                      |
-|------------------|-------------------------------|--------------------|----------------------------------------------|
-| `python-version` | Python versions to test       | `["3.9", "3.12"]`  | `["3.10", "3.11"]`                           |
-| `extras`         | Extra dependencies to install | `tests`            | `tests,oaipmh`                               |
-| `db-service`     | Database service to use       | `["postgresql14"]` | `["postgresql14", "postgresql15", "mysql8"]` |
-| `search-service` | Search service to use         | `["opensearch2"]`  | `["elasticsearch7", "opensearch2"]`          |
-
 To use in your repository, add the following in your `.github/workflows/tests.yml` file under the `jobs` key:
 
 ```yaml
@@ -36,6 +27,19 @@ jobs:
     # with:
     #   extras: "tests,oaipmh"
 ```
+
+#### Inputs
+
+> ![!IMPORTANT]
+> Because reusable workflows don't support array inputs, the `python-version`,
+> `db-service`, and `search-service` inputs are expected to be a JSON-encoded string.
+
+| Name             | Description                                     | Default              | Example override                      |
+|------------------|-------------------------------------------------|----------------------|---------------------------------------|
+| `python-version` | Python versions to test                         | `'["3.9", "3.12"]'`  | `'["3.10", "3.11"]'`                  |
+| `extras`         | Package extras to install                       | `tests`              | `tests,oaipmh`                        |
+| `db-service`     | Database services to include in the test matrix | `'["postgresql14"]'` | `'["postgresql15", "mysql8"]'`        |
+| `search-service` | Search services to include in the test matrix   | `'["opensearch2"]'`  | `'["elasticsearch7", "opensearch2"]'` |
 
 #### Pre-install
 
@@ -55,14 +59,14 @@ runs:
 
 ### JS tests
 
-Inputs:
+This workflow will:
 
-| Name                             | Description                                                          | Default            | Example                                                           |
-|----------------------------------|----------------------------------------------------------------------|--------------------|-------------------------------------------------------------------|
-| `node-version`                   | Node versions to test                                                | `["18.x", "20.x"]` | `["20.x", "22.x"]`                                                |
-| `js-working-directory`           | Working directory for JS tests. If unset, not tests will run         | Unset              | `./invenio_foobar/assets/semantic-ui/js/invenio_foobar`           |
-| `translations-working-directory` | Working directory for translations tests. If unset no tests will run | Unset              | `./invenio_foobar/assets/semantic-ui/translations/invenio_foobar` |
-
+1. Checkout the repository at the commit the workflow is running on.
+2. Set up Node.js.
+3. Run the linter using the `./run-js-linter.sh` script in the repository.
+4. Install test dependencies if the `js-working-directory` input is set.
+5. Install frontent dependencies if the `translations-working-directory` input is set.
+6. Run the tests using the `./run-js-tests.sh` script in the repository.
 
 To use in your repository, add the following in your `.github/workflows/tests.yml` file under the `jobs` key:
 
@@ -78,3 +82,12 @@ jobs:
       # If you you don't have translations to test, just skip this line
       translations-working-directory: "./invenio_foobar/assets/semantic-ui/translations/invenio_foobar"
 ```
+
+#### Inputs
+
+| Name                             | Description                                                          | Default            | Example                                                           |
+|----------------------------------|----------------------------------------------------------------------|--------------------|-------------------------------------------------------------------|
+| `node-version`                   | Node versions to test                                                | `["18.x", "20.x"]` | `["20.x", "22.x"]`                                                |
+| `js-working-directory`           | Working directory for JS tests. If unset, not tests will run         | Unset              | `./invenio_foobar/assets/semantic-ui/js/invenio_foobar`           |
+| `translations-working-directory` | Working directory for translations tests. If unset no tests will run | Unset              | `./invenio_foobar/assets/semantic-ui/translations/invenio_foobar` |
+
