@@ -38,7 +38,7 @@ jobs:
     env:
       DB: ${{ matrix.db-service }}
       SEARCH: ${{ matrix.search-service }}
-      EXTRAS: ${{ inputs.extras }},${{ matrix.search-service }}
+      EXTRAS: ${{ inputs.extras }}${{ matrix.search-service && ',' || '' }}${{ matrix.search-service }}
 
     steps:
       - name: Checkout
