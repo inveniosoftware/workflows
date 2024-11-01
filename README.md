@@ -65,7 +65,7 @@ This workflow will:
 2. Set up Node.js.
 3. Run the linter using the `./run-js-linter.sh` script in the repository.
 4. Install test dependencies if the `js-working-directory` input is set.
-5. Install frontent dependencies if the `translations-working-directory` input is set.
+5. Install frontend dependencies if the `translations-working-directory` input is set.
 6. Run the tests using the `./run-js-tests.sh` script in the repository.
 
 To use in your repository, add the following in your `.github/workflows/tests.yml` file under the `jobs` key:
@@ -91,3 +91,34 @@ jobs:
 | `js-working-directory`           | Working directory for JS tests. If unset, not tests will run         | Unset              | `./invenio_foobar/assets/semantic-ui/js/invenio_foobar`           |
 | `translations-working-directory` | Working directory for translations tests. If unset no tests will run | Unset              | `./invenio_foobar/assets/semantic-ui/translations/invenio_foobar` |
 
+### Publish package on PyPI
+
+This workflow will:
+
+1. Checkout the repository at the commit the workflow is running on.
+2. Set up Python.
+3. Installs required dependencies (`build`, `twine`)
+4. Build the distribution package (source distribution and wheel)
+5. Publish the package in PyPI using `twine`
+
+When the optional input `babel-compile-catalog` is set to `true`, it will also install `Babel` and run `python setup.py compile_catalog` to compile the message catalog from a PO file and to a binary MO file (see doc [here](https://babel.pocoo.org/en/latest/setup.html#compile-catalog)).
+
+To use in your repository, add the following in your `.github/workflows/pypi-publish.yml` file under the `jobs` key:
+
+```yaml
+# ...
+
+jobs:
+
+  Publish:
+    uses: inveniosoftware/workflows/.github/workflows/pypi-publish.yml@master
+    # If you want to enable the compilation of the translations catalog, configure it with:
+    # with:
+    #   babel-compile-catalog: true
+```
+
+#### Inputs
+
+| Name             | Description                                     | Default              | Example override                      |
+|------------------|-------------------------------------------------|----------------------|---------------------------------------|
+| `babel-compile-catalog` | Compile the message catalog from a PO file to a binary MO file (see doc [here](https://babel.pocoo.org/en/latest/setup.html#compile-catalog)) | `false` | `true` |
