@@ -110,12 +110,15 @@ To use in your repository, add the following in your `.github/workflows/pypi-pub
 
 jobs:
 
-  Publish:
+  Build-N-Publish:
     uses: inveniosoftware/workflows/.github/workflows/pypi-publish.yml@master
+    secrets: inherit
     # If you want to enable the compilation of the translations catalog, configure it with:
     # with:
     #   babel-compile-catalog: true
 ```
+
+The `secrets: inherit` part is necessary, so that the PYPI_TOKEN secret (and other secrets) can be used by the reusable workflow when publishing. See doc [here](https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#jobsjob_idsecretsinherit).
 
 #### Inputs
 
