@@ -14,7 +14,7 @@ on:
         type: boolean
 
 jobs:
-  build-n-publish:
+  Build-N-Publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
           python -m build
 
       - name: Publish
-        uses: pypa/gh-action-pypi-publish@v1.11.0
+        uses: pypa/gh-action-pypi-publish@v1.12.2
         with:
           user: __token__
-          password: ${{ secrets.pypi_token }}
+          password: ${{ secrets.PYPI_TOKEN }}
