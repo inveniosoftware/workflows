@@ -41,6 +41,18 @@ jobs:
 | `db-service`     | Database services to include in the test matrix | `'["postgresql14"]'` | `'["postgresql15", "mysql8"]'`        |
 | `search-service` | Search services to include in the test matrix   | `'["opensearch2"]'`  | `'["elasticsearch7", "opensearch2"]'` |
 
+If you need to run the tests without any db or search service, just define it as the following:
+
+```yaml
+jobs:
+
+  Python:
+    uses: inveniosoftware/workflows/.github/workflows/tests-python.yml@master
+    with:
+      db-service: '[""]'
+      search-service: '[""]'
+```
+
 #### Pre-install
 
 In case you want to run additional steps before Python dependencies are install, you
