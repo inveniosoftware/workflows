@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2024 CERN.
+# Copyright (C) 2025 Graz University of Technology.
 
 name: Python CI
 
@@ -54,6 +55,15 @@ jobs:
       - name: Pre-install
         uses: ./.github/actions/pre-install
         if: ${{ hashFiles('.github/actions/pre-install/action.yml') != '' }}
+
+      - uses: psf/black@stable
+        with:
+          options: "--check --verbose"
+
+      - name: Linter
+        uses: astral-sh/ruff-action@v3
+        with:
+          args: "check --select I,T20,F401,F841,F811"
 
       - name: Install dependencies
         run: |
