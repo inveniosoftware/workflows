@@ -10,7 +10,7 @@ on:
       node-version:
         description: "Node versions"
         type: string
-        default: '["18.x", "20.x"]'
+        default: '["22.x"]'
       js-working-directory:
         description: "Working directory"
         type: string
