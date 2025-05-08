@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2024 CERN.
+# Copyright (C) 2024 Graz University of Technology.
+# Copyright (C) 2025 KTH Royal Institute of Technology.
 
 name: Publish on PyPI
 
@@ -8,10 +10,20 @@ on:
   workflow_call:
     inputs:
       babel-compile-catalog:
-        description: 'Run Babel compile_catalog cmd'
+        description: "Run Babel compile_catalog cmd"
         required: false
         default: false
         type: boolean
+      js-translations-working-directory:
+        description: "Path to frontend translations directory (leave blank to skip)"
+        required: false
+        default: ""
+        type: string
+      node-version:
+        description: "Node.js version used when compiling JS assets"
+        required: false
+        default: "22"
+        type: string
 
 jobs:
   Build-N-Publish:
@@ -34,6 +46,20 @@ jobs:
         run: |
           python -m pip install babel
           python setup.py compile_catalog
+
+      - name: Setup node
+        if: ${{ inputs.js-translations-working-directory != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+
+      - name: Build frontend translations
+        if: ${{ inputs.js-translations-working-directory != '' }}
+        working-directory: ${{ inputs.js-translations-working-directory }}
+        run: |
+          npm ci
+          npm list
+          npm run compile_catalog
 
       - name: Build package
         run: |
