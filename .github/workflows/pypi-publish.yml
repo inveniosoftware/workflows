@@ -71,9 +71,17 @@ jobs:
           npm ci
           npm list
           npm run compile_catalog
-          echo "cleaning up node_modules ..."
-          rm -rf node_modules
-          echo "node_modules removed from final distribution."
+          echo "cleaning up node_modules and dev files..."
+          rm -rf node_modules scripts
+          rm -f package-lock.json i18next-scanner.config.js
+          echo "Cleaned up frontend build artifacts and development dependencies."
+
+      - name: Remove unnecessary files before packaging
+        run: |
+          echo "Removing docs, tests, .github, and .tx directories..."
+          rm -rf docs tests .github .tx
+          echo "Unnecessary directories removed from final distribution."
+
       - name: Build package
         run: |
           python -m build
