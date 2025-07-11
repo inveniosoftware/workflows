@@ -44,15 +44,15 @@ jobs:
         id: determine_js_path
         run: |
           PACKAGE_NAME=$(basename "$PWD" | tr '-' '_')
-          THEME_PATH="$PACKAGE_NAME/theme/assets/semantic-ui/translations/$PACKAGE_NAME"
-          DEFAULT_PATH="$PACKAGE_NAME/assets/semantic-ui/translations/$PACKAGE_NAME"
+          APP_RDM_TRANSLATIONS_PATH="$PACKAGE_NAME/theme/assets/semantic-ui/translations/$PACKAGE_NAME"
+          DEFAULT_TRANSLATIONS_PATH="$PACKAGE_NAME/assets/semantic-ui/translations/$PACKAGE_NAME"
 
-          if [ -f "$THEME_PATH/package.json" ]; then
-            echo "Found package.json in theme path: $THEME_PATH"
-            echo "translation_dir=$THEME_PATH" >> $GITHUB_OUTPUT # make path visible to subsequent steps
-          elif [ -f "$DEFAULT_PATH/package.json" ]; then
-            echo "Found package.json in default path: $DEFAULT_PATH"
-            echo "translation_dir=$DEFAULT_PATH" >> $GITHUB_OUTPUT
+          if [ -f "$APP_RDM_TRANSLATIONS_PATH/package.json" ]; then
+            echo "Found package.json in theme path: $APP_RDM_TRANSLATIONS_PATH"
+            echo "translation_dir=$APP_RDM_TRANSLATIONS_PATH" >> $GITHUB_OUTPUT # make path visible to subsequent steps
+          elif [ -f "$DEFAULT_TRANSLATIONS_PATH/package.json" ]; then
+            echo "Found package.json in default path: $DEFAULT_TRANSLATIONS_PATH"
+            echo "translation_dir=$DEFAULT_TRANSLATIONS_PATH" >> $GITHUB_OUTPUT
           else
             echo "No JS translation directory found"
             echo "translation_dir=" >> $GITHUB_OUTPUT
