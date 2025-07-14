@@ -24,6 +24,10 @@ jobs:
         with:
           python-version: 3.9
 
+      - name: Pre-install
+        uses: ./.github/actions/pre-install
+        if: ${{ hashFiles('.github/actions/pre-install/action.yml') != '' }}
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
