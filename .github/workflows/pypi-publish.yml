@@ -39,6 +39,7 @@ jobs:
       - name: Compile catalog
         if: ${{ fromJSON(inputs.babel-compile-catalog) }}
         run: |
+          python -m pip install setuptools
           python -m pip install babel
           python setup.py compile_catalog
 
