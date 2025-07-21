@@ -71,7 +71,7 @@ jobs:
         if: ${{ steps.determine_js_path.outputs.translation_dir != '' }}
         working-directory: ${{ steps.determine_js_path.outputs.translation_dir }}
         run: |
-          npm ci
+          npm install
           npm list
           npm run compile_catalog
           echo "cleaning up node_modules and dev files..."
