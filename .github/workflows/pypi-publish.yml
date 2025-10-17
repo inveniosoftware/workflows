@@ -36,6 +36,29 @@ jobs:
           python -m pip install setuptools
           python -m pip install build twine
 
+      - name: Normalize locale translations directory names
+        if: ${{ fromJSON(inputs.babel-compile-catalog) }}
+        run: |
+          # Find translations directory dynamically (some packages do not start with 'invenio' e.g., 'flask-security')
+          TRANSLATIONS_DIR=$(find . -mindepth 2 -maxdepth 2 -type d -name "translations" -print -quit)
+          
+          if [ -n "$TRANSLATIONS_DIR" ] && [ -d "$TRANSLATIONS_DIR" ]; then
+            echo "Found translations at: $TRANSLATIONS_DIR"
+            echo "Normalizing hyphenated locales to underscore style (e.g., zh-hant -> zh_hant)"
+            for dir in "$TRANSLATIONS_DIR"/*; do
+              if [ -d "$dir" ]; then
+                newdir=$(echo "$dir" | sed 's/-/_/g')
+                if [ "$dir" != "$newdir" ]; then
+                  echo "Renaming $dir to $newdir"
+                  mv "$dir" "$newdir"
+                fi
+              fi
+            done
+            echo "Locale normalization complete"
+          else
+            echo "No translations directory found, skipping normalization"
+          fi
+
       - name: Compile catalog
         if: ${{ fromJSON(inputs.babel-compile-catalog) }}
         run: |
