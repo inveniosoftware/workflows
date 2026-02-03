@@ -12,7 +12,7 @@ on:
         description: "Python versions"
         type: string
         # NOTE: There is no "array" type, so we use "string" and parse it in the matrix
-        default: '["3.9", "3.11", "3.14.0"]'
+        default: '["3.9", "3.11", "3.14"]'
       extras:
         description: "Extra dependencies"
         type: string
