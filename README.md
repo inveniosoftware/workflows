@@ -78,7 +78,7 @@ This workflow will:
 3. Run the linter using the `./run-js-linter.sh` script in the repository.
 4. Install test dependencies if the `js-working-directory` input is set.
 5. Install frontend dependencies if the `translations-working-directory` input is set.
-6. Run the tests using the `./run-js-tests.sh` script in the repository.
+6. Run the tests using the `./run-js-tests.sh` script in the repository (falls back to `npm test` if not present).
 
 To use in your repository, add the following in your `.github/workflows/tests.yml` file under the `jobs` key:
 
