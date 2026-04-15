@@ -61,4 +61,13 @@ jobs:
       - name: Run frontend tests
         if: ${{ inputs.js-working-directory != '' }}
         working-directory: ${{ inputs.js-working-directory }}
-        run: npm test
+        env:
+          WORKING_DIR: ${{ inputs.js-working-directory }}
+          CI: true
+        run: |
+          if [ -f "${{ github.workspace }}/run-js-tests.sh" ]; then
+            ${{ github.workspace }}/run-js-tests.sh
+          else
+            echo "Warning: run-js-tests.sh not found, falling back to 'npm test'"
+            npm test
+          fi
