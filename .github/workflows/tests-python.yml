@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2024 CERN.
 # Copyright (C) 2025 Graz University of Technology.
+# Copyright (C) 2025 Northwestern University.
 
 name: Python CI
 
@@ -28,7 +29,7 @@ on:
 
 jobs:
   Tests:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -40,6 +41,7 @@ jobs:
       DB: ${{ matrix.db-service }}
       SEARCH: ${{ matrix.search-service }}
       EXTRAS: ${{ inputs.extras }}${{ matrix.search-service && ',' || '' }}${{ matrix.search-service }}
+      UV_SYSTEM_PYTHON: 1  # Force uv to install dependencies in the system-managed Python
 
     steps:
       - name: Checkout
@@ -49,8 +51,11 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
-          cache-dependency-path: setup.cfg
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b  # v8.1.0
+        with:
+          enable-cache: true
 
       - name: Pre-install
         uses: ./.github/actions/pre-install
@@ -58,8 +63,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install ".[$EXTRAS]"
-          pip freeze
+          uv pip install ".[$EXTRAS]"
+          uv pip list
           docker version
 
       - name: Run tests
