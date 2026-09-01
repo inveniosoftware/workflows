@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: 2024 CERN.
-# SPDX-FileCopyrightText: 2025 Graz University of Technology.
+# SPDX-FileCopyrightText: 2025-2026 Graz University of Technology.
 # SPDX-FileCopyrightText: 2025 Northwestern University.
 # SPDX-License-Identifier: MIT
 
@@ -12,7 +12,7 @@ on:
         description: "Python versions"
         type: string
         # NOTE: There is no "array" type, so we use "string" and parse it in the matrix
-        default: '["3.9", "3.11", "3.14"]'
+        default: '["3.11", "3.14"]'
       extras:
         description: "Extra dependencies"
         type: string
