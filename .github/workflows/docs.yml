@@ -4,10 +4,7 @@
 name: Render and deploy docs
 
 on:
-  push:
-    branches:
-      - master
-  workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
