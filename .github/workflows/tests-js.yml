@@ -10,6 +10,10 @@ on:
         description: "Node versions"
         type: string
         default: '["22.x"]'
+      npm-version:
+        description: "npm version installed on top of each Node version"
+        type: string
+        default: "11"
       js-working-directory:
         description: "Working directory"
         type: string
@@ -39,6 +43,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           # TODO: Needs to have a `package-lock.json`
           # cache: npm
+
+      - name: Install npm
+        run: |
+          npm install -g npm@${{ inputs.npm-version }}
+          npm --version
 
       - name: Run eslint test
         run: ./run-js-linter.sh -i
