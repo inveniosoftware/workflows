@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2024 CERN.
+# SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
 # SPDX-License-Identifier: MIT
 
 name: Node CI
@@ -9,7 +10,7 @@ on:
       node-version:
         description: "Node versions"
         type: string
-        default: '["22.x"]'
+        default: '["24.x"]'
       npm-version:
         description: "npm version installed on top of each Node version"
         type: string
@@ -65,6 +66,11 @@ jobs:
         run: |
           npm install
           npm list
+
+      - name: Run translation catalog tests
+        if: ${{ inputs.translations-working-directory != '' }}
+        working-directory: ${{ inputs.translations-working-directory }}
+        run: npm run test_catalog --if-present
 
       - name: Run frontend tests
         if: ${{ inputs.js-working-directory != '' }}
