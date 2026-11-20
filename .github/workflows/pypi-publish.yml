@@ -59,7 +59,7 @@ jobs:
             echo "given translation directory '$TRANSLATION_DIRECTORY' does not exist"
             exit 1
           fi
-          pybabel compile --directory="$TRANSLATION_DIRECTORY" --use-fuzzy
+          pybabel compile --directory="$TRANSLATION_DIRECTORY"
 
       - name: Determine JS translation directory
         id: determine_js_path
