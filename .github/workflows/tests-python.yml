@@ -20,7 +20,7 @@ on:
       db-service:
         description: "DB service"
         type: string
-        default: '["postgresql14"]'
+        default: '["postgresql18"]'
       search-service:
         description: "Search service"
         type: string
